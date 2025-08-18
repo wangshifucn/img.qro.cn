@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>在线拼图工具 - 免费、无需登录</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>在线拼图工具</h1>
+            <p>免费、无需登录、不加水印、高清下载</p>
+        </header>
+
+        <div class="mode-switch">
+            <button id="layoutMode" class="active">布局模式</button>
+            <button id="puzzleMode">拼图模式</button>
+        </div>
+
+        <div class="toolbox">
+            <div class="upload-area">
+                <div class="drop-zone" id="dropZone">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>拖拽图片到此处或点击上传</p>
+                    <input type="file" id="fileInput" multiple accept="image/*">
+                </div>
+            </div>
+
+            <div class="settings">
+                <div class="setting-item">
+                    <label for="gap">间距 (px):</label>
+                    <input type="number" id="gap" min="0" max="50" value="10">
+                </div>
+                <div class="setting-item">
+                    <label for="borderRadius">圆角 (px):</label>
+                    <input type="number" id="borderRadius" min="0" max="50" value="0">
+                </div>
+                <div class="setting-item">
+                    <label for="borderColor">边框颜色:</label>
+                    <input type="color" id="borderColor" value="#ffffff">
+                </div>
+                <div class="setting-item">
+                    <label for="borderWidth">边框宽度 (px):</label>
+                    <input type="number" id="borderWidth" min="0" max="10" value="0">
+                </div>
+                <div class="setting-item">
+                    <label for="exportFormat">导出格式:</label>
+                    <select id="exportFormat">
+                        <option value="png">PNG (无损)</option>
+                        <option value="jpeg">JPEG (可调质量)</option>
+                    </select>
+                </div>
+                <div class="setting-item">
+                    <label for="exportQuality">导出质量:</label>
+                    <div class="quality-control">
+                        <input type="range" id="exportQuality" min="0.1" max="1" step="0.1" value="1">
+                        <span id="qualityValue">100%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="advanced-settings-toggle">
+                <button id="toggleAdvancedSettings">
+                    <i class="fas fa-cog"></i> 高级设置
+                </button>
+            </div>
+            <div id="advancedSettings" class="advanced-settings" style="display: none;">
+                <div class="setting-item">
+                    <label for="bgColor">背景颜色:</label>
+                    <input type="color" id="bgColor" value="#ffffff">
+                </div>
+                <div class="setting-item">
+                    <label for="watermarkText">水印文字:</label>
+                    <input type="text" id="watermarkText" placeholder="输入水印文字">
+                </div>
+                <div class="setting-item">
+                    <label for="watermarkColor">水印颜色:</label>
+                    <input type="color" id="watermarkColor" value="#000000">
+                </div>
+                <div class="setting-item">
+                    <label for="watermarkOpacity">水印透明度:</label>
+                    <input type="range" id="watermarkOpacity" min="0" max="1" step="0.1" value="0.5">
+                </div>
+                <div class="setting-item">
+                    <label for="watermarkPosition">水印位置:</label>
+                    <select id="watermarkPosition">
+                        <option value="top-left">左上角</option>
+                        <option value="top-right">右上角</option>
+                        <option value="bottom-left">左下角</option>
+                        <option value="bottom-right">右下角</option>
+                        <option value="center">居中</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button id="downloadBtn">
+                    <i class="fas fa-download"></i> 下载图片
+                </button>
+                <button id="resetBtn">
+                    <i class="fas fa-redo"></i> 重置
+                </button>
+            </div>
+        </div>
+
+        <!-- 布局模式模板选择区 -->
+        <div id="layoutTemplates" class="template-area">
+            <h3>选择布局模板:</h3>
+            <div class="templates">
+                <div class="template" data-layout="2h"><div></div><div></div></div>
+                <div class="template" data-layout="2v"><div></div><div></div></div>
+                <div class="template" data-layout="3h"><div></div><div></div><div></div></div>
+                <div class="template" data-layout="3v"><div></div><div></div><div></div></div>
+                <div class="template" data-layout="3m"><div></div><div></div><div></div></div>
+                <div class="template" data-layout="4h"><div></div><div></div><div></div><div></div></div>
+                <div class="template" data-layout="4v"><div></div><div></div><div></div><div></div></div>
+                <div class="template" data-layout="4g"><div></div><div></div><div></div><div></div></div>
+                <div class="template" data-layout="4m"><div></div><div></div><div></div><div></div></div>
+                <div class="template" data-layout="5m"><div></div><div></div><div></div><div></div><div></div></div>
+            </div>  
+        </div>
+
+        <!-- 拼图模式方向选择 -->
+        <div id="puzzleOrientation" class="template-area" style="display: none;">
+            <h3>选择拼图方向:</h3>
+            <div class="orientation-options">
+                <button id="horizontal" class="active">横向</button>
+                <button id="vertical">纵向</button>
+            </div>
+        </div>
+
+        <!-- 预览和编辑区域 -->
+        <div class="preview-container">
+            <div class="preview-area" id="previewArea">
+                <p class="placeholder">请上传图片并选择布局模板</p>
+            </div>
+        </div>
+
+        <footer>
+            <p>操作提示: 拖拽替换图片 | Alt+拖拽平移图片 | 方向键平移图片</p>
+        </footer>
+    </div>
+
+    <!-- 保存图片对话框 -->
+    <div id="saveDialog" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>保存图片</h2>
+                <span class="close-modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="save-section">
+                    <h3>保存路径</h3>
+                    <div class="path-selection">
+                        <button class="path-btn active" data-path="desktop">桌面</button>
+                        <button class="path-btn" data-path="documents">文档</button>
+                        <button class="path-btn" data-path="downloads">下载</button>
+                        <button id="customPathBtn">自定义</button>
+                    </div>
+                    <div class="path-display">
+                        <span id="currentPath">C:\Users\Administrator\Desktop</span>
+                        <button id="changePathBtn">更改</button>
+                    </div>
+                </div>
+
+                <div class="save-section">
+                    <h3>文件名称与格式</h3>
+                    <div class="filename-format">
+                        <input type="text" id="fileName" placeholder="未命名">
+                        <select id="saveFormat">
+                            <option value="jpg">jpg</option>
+                            <option value="png">png</option>
+                        </select>
+                    </div>
+                    <p class="format-note">*JPG格式不支持透明背景</p>
+                </div>
+
+                <div class="save-section">
+                    <h3>画质调整</h3>
+                    <div class="quality-tabs">
+                        <button class="quality-tab active" data-quality-mode="manual">手动调整</button>
+                        <button class="quality-tab" data-quality-mode="auto">智能压缩</button>
+                        <button class="quality-tab" data-quality-mode="ai">AI变清晰</button>
+                    </div>
+                    <div class="quality-preview">
+                        <p>预估大小: <span id="estimatedSize">39.13 KB</span></p>
+                        <div class="quality-slider-container">
+                            <span>低画质</span>
+                            <input type="range" id="qualitySlider" min="1" max="100" value="95">
+                            <span id="qualityValue">95</span>
+                            <span>高画质</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="saveAsBtn">另存为</button>
+                <button id="saveBtn" class="primary">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
