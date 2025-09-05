@@ -3,8 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>在线拼图工具 - 免费、无需登录</title>
-    <link rel="stylesheet" href="style.css">
+    <title>拼图画廊</title>
+    <link rel="stylesheet" href="style-base.css">
+    <link rel="stylesheet" href="style-components.css">
+    <link rel="stylesheet" href="style-layout.css">
+    <link rel="stylesheet" href="style-responsive.css">
+    <link rel="stylesheet" href="style-settings.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -17,6 +21,32 @@
         <div class="mode-switch">
             <button id="layoutMode" class="active">布局模式</button>
             <button id="puzzleMode">拼图模式</button>
+        </div>
+
+        <!-- 布局模式模板选择区 -->
+        <div id="layoutTemplates" class="template-area">
+            <h3>选择布局模板:</h3>
+            <div class="templates">
+                <div class="template" data-layout="2h"><div></div><div></div></div>
+                <div class="template" data-layout="2v"><div></div><div></div></div>
+                <div class="template" data-layout="3h"><div></div><div></div><div></div></div>
+                <div class="template" data-layout="3v"><div></div><div></div><div></div></div>
+                <div class="template" data-layout="3m"><div></div><div></div><div></div></div>
+                <div class="template" data-layout="4h"><div></div><div></div><div></div><div></div></div>
+                <div class="template" data-layout="4v"><div></div><div></div><div></div><div></div></div>
+                <div class="template" data-layout="4g"><div></div><div></div><div></div><div></div></div>
+                <div class="template" data-layout="4m"><div></div><div></div><div></div><div></div></div>
+                <div class="template" data-layout="5m"><div></div><div></div><div></div><div></div><div></div></div>
+            </div>  
+        </div>
+
+        <!-- 拼图模式方向选择 -->
+        <div id="puzzleOrientation" class="template-area" style="display: none;">
+            <h3>选择拼图方向:</h3>
+            <div class="orientation-options">
+                <button id="horizontal" class="active">横向</button>
+                <button id="vertical">纵向</button>
+            </div>
         </div>
 
         <div class="toolbox">
@@ -105,36 +135,14 @@
             </div>
         </div>
 
-        <!-- 布局模式模板选择区 -->
-        <div id="layoutTemplates" class="template-area">
-            <h3>选择布局模板:</h3>
-            <div class="templates">
-                <div class="template" data-layout="2h"><div></div><div></div></div>
-                <div class="template" data-layout="2v"><div></div><div></div></div>
-                <div class="template" data-layout="3h"><div></div><div></div><div></div></div>
-                <div class="template" data-layout="3v"><div></div><div></div><div></div></div>
-                <div class="template" data-layout="3m"><div></div><div></div><div></div></div>
-                <div class="template" data-layout="4h"><div></div><div></div><div></div><div></div></div>
-                <div class="template" data-layout="4v"><div></div><div></div><div></div><div></div></div>
-                <div class="template" data-layout="4g"><div></div><div></div><div></div><div></div></div>
-                <div class="template" data-layout="4m"><div></div><div></div><div></div><div></div></div>
-                <div class="template" data-layout="5m"><div></div><div></div><div></div><div></div><div></div></div>
-            </div>  
-        </div>
-
-        <!-- 拼图模式方向选择 -->
-        <div id="puzzleOrientation" class="template-area" style="display: none;">
-            <h3>选择拼图方向:</h3>
-            <div class="orientation-options">
-                <button id="horizontal" class="active">横向</button>
-                <button id="vertical">纵向</button>
-            </div>
-        </div>
-
         <!-- 预览和编辑区域 -->
         <div class="preview-container">
             <div class="preview-area" id="previewArea">
                 <p class="placeholder">请上传图片并选择布局模板</p>
+                <div class="loading-indicator" style="display: none;">
+                    <div class="loading-spinner"></div>
+                    <span>加载中...</span>
+                </div>
             </div>
         </div>
 
@@ -202,6 +210,11 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <!-- 在body底部引入脚本文件，调整顺序确保依赖正确 -->
+    <script src="script-file.js"></script>
+    <script src="script-layout.js"></script>
+    <script src="script-core.js"></script>
+    <script src="script-interaction.js"></script>
+    <script src="script-download.js"></script>
 </body>
 </html>

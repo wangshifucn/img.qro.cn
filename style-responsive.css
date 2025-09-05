@@ -1,0 +1,58 @@
+/* 响应式设计优化 */
+@media (max-width: 992px) {
+    .setting-item {
+        width: calc(33.333% - 20px);
+    }
+}
+
+@media (max-width: 768px) {
+    .setting-item {
+        width: calc(50% - 20px);
+    }
+
+    header h1 {
+        font-size: 2rem;
+    }
+
+    .mode-switch button {
+        padding: 10px 20px;
+    }
+}
+
+@media (max-width: 576px) {
+    .setting-item {
+        width: 100%;
+    }
+
+    .actions {
+        flex-direction: column;
+    }
+
+    .actions button {
+        width: 100%;
+        justify-content: center;
+    }
+
+    header h1 {
+        font-size: 1.8rem;
+    }
+
+    .template {
+        width: 70px;
+        height: 70px;
+    }
+}
+
+@media (max-width: 480px) {
+    .setting-item {
+        width: 100%;
+    }
+
+    .actions {
+        flex-direction: column;
+    }
+
+    .actions button {
+        width: 100%;
+    }
+}
